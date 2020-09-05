@@ -17,6 +17,7 @@ pipeline {
             steps {
                 sh 'java -version'
                 sh 'javac -version'
+                sh 'mvn clean install package'
             }
         }
     }
