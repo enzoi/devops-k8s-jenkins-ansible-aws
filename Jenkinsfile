@@ -26,6 +26,7 @@ pipeline {
                     continueOnError: false, failOnError: true,
                     publishers: [
                         sshPublisherDesc(
+                            configName: "ansible-server",
                             verbose: true,
                             transfers: [
                                 sshTransfer(
