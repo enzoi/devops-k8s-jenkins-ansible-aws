@@ -42,7 +42,7 @@ pipeline {
                                     sourceFiles: "ansible/create-simple-devops-image.yml, ansible/hosts",
                                     removePrefix: "ansible",
                                     remoteDirectory: "//opt//kubernetes",
-                                    execCommand: "ansible-playbook -i /opt/kubernetes/hosts /opt/kubernetes/simple-devops-project.yml"
+                                    execCommand: "ansible-playbook -i /opt/kubernetes/hosts /opt/kubernetes/create-simple-devops-image.yml"
                                 )
                         ])
                 ])
