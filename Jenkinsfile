@@ -21,7 +21,7 @@ pipeline {
             }
         }
         stage('Transfer Artifacts to Ansible Server Over SSH') {
-            script {
+            steps {
                 sshPublisher(
                     continueOnError: false, failOnError: true,
                     publishers: [
