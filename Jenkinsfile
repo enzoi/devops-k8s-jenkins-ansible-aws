@@ -21,7 +21,7 @@ pipeline {
             }
         }
         stage('SSH Transfer and Run Ansible Playbook') {
-            script {
+            steps {
                 sshPublisher(
                     continueOnError: false, failOnError: true,
                     publishers: [
