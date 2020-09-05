@@ -20,7 +20,7 @@ pipeline {
                 sh 'mvn clean install package'
             }
         }
-        stage('Transfer Artifacts to Ansible Server Over SSH') {
+        stage('SSH Transfer and Run Ansible Playbook') {
             steps {
                 sshPublisher(
                     continueOnError: false, failOnError: true,
@@ -34,21 +34,17 @@ pipeline {
                                     remoteDirectory: "//opt//kubernetes"
                                 ),
                                 sshTransfer(
-                                    sourceFiles: "ansible/create-simple-devops-image.yml, ansible/hosts",
-                                    removePrefix: "ansible",
+                                    sourceFiles: "Dockerfile",
                                     remoteDirectory: "//opt//kubernetes",
                                 ),
                                 sshTransfer(
-                                    sourceFiles: "Dockerfile",
+                                    sourceFiles: "ansible/create-simple-devops-image.yml, ansible/hosts",
+                                    removePrefix: "ansible",
                                     remoteDirectory: "//opt//kubernetes",
+                                    execCommand: "ansible-playbook -i /opt/kubernetes/hosts /opt/kubernetes/simple-devops-project.yml"
                                 )
                         ])
                 ])
-            }
-        }
-        stage('Run Ansible Playbook to Build Docker Image and Push to Docker Hub') {
-            steps {
-                sh 'ansible-playbook -i /opt/kubernetes/hosts /opt/kubernetes/simple-devops-project.yml'
             }
         }
     }
