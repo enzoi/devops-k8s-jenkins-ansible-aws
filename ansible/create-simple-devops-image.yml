@@ -5,7 +5,7 @@
   - name: create docker image using war file 
     command: docker build -t simple-devops-image:latest .
     args:
-      chdir: /opt/docker
+      chdir: /opt/kubernetes
 
   - name: create tag to image
     command: docker tag simple-devops-image ytk007/simple-devops-image
