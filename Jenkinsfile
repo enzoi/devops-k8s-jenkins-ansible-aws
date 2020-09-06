@@ -59,7 +59,7 @@ pipeline {
                     continueOnError: false, failOnError: true,
                     publishers: [
                         sshPublisherDesc(
-                            configName: "ansible-server",
+                            configName: "kops-machine",
                             verbose: true,
                             transfers: [
                                 sshTransfer(
