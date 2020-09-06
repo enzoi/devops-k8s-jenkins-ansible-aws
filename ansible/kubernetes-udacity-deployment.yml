@@ -16,4 +16,4 @@
 
 # For rolling deployment later after initial deployment
   - name: Update deployment with new pods if image updated in docker hub
-    command: kubectl rollout restart deployment.v1.apps/udacity-deployment
+    command: kubectl rollout restart udacity-deployment
