@@ -1,11 +1,18 @@
 ---
 - hosts: ansible-server
-  become: true
 
   tasks:
   - name: Copy webapp file with owner and permissions
     copy:
       src: webapp/target/*.war
+      dest: /opt/docker
+      owner: ansadmin
+      group: ansadmin
+      mode: '0644'
+
+  - name: Copy Dockerfile with owner and permissions
+    copy:
+      src: Dockerfile
       dest: /opt/docker
       owner: ansadmin
       group: ansadmin
