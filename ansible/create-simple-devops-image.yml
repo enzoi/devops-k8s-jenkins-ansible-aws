@@ -1,6 +1,6 @@
 ---
 - hosts: ansible-server
-  user: ec2-user
+  become: true
 
   tasks:
   - name: Copy webapp file with owner and permissions
