@@ -67,6 +67,12 @@ pipeline {
                                     removePrefix: "kubernetes",
                                     remoteDirectory: "//opt//kubernetes",
                                     execCommand: "ansible-playbook -i /opt/kubernetes/hosts /opt/kubernetes/udacity-deployment.yml"
+                                ),
+                                sshTransfer(
+                                    sourceFiles: "kubernetes/udacity-service.yml",
+                                    removePrefix: "kubernetes",
+                                    remoteDirectory: "//opt//kubernetes",
+                                    execCommand: "ansible-playbook -i /opt/kubernetes/hosts /opt/kubernetes/udacity-service.yml"
                                 )
                         ])
                 ])
