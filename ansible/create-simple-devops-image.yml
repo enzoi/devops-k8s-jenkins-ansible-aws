@@ -4,7 +4,7 @@
   - name: Copy webapp file with owner and permissions
     copy:
       src: webapp/target/*.war
-      dest: /opt/kubernetes
+      dest: /opt/docker
       owner: ansadmin
       group: ansadmin
       mode: '0644'
@@ -12,7 +12,7 @@
   - name: create docker image using war file 
     command: docker build -t simple-devops-image:latest .
     args:
-      chdir: /opt/kubernetes
+      chdir: /opt/docker
 
   - name: create tag to image
     command: docker tag simple-devops-image ytk007/simple-devops-image
