@@ -25,32 +25,14 @@ pipeline {
                 sh 'mvn clean install package'
             }
         }
-        stage('SSH Transfer and Run Ansible Playbook') {
+        stage('Build Docker Image and Push to Docker Hub') {
             steps {
-                sshPublisher(
-                    continueOnError: false, failOnError: true,
-                    publishers: [
-                        sshPublisherDesc(
-                            configName: "ansible-server",
-                            verbose: true,
-                            transfers: [
-                                sshTransfer(
-                                    sourceFiles: "webapp/target/*.war",
-                                    removePrefix: "webapp/target",
-                                    remoteDirectory: "//opt//kubernetes"
-                                ),
-                                sshTransfer(
-                                    sourceFiles: "Dockerfile",
-                                    remoteDirectory: "//opt//kubernetes",
-                                ),
-                                sshTransfer(
-                                    sourceFiles: "ansible/create-simple-devops-image.yml, ansible/hosts",
-                                    removePrefix: "ansible",
-                                    remoteDirectory: "//opt//kubernetes",
-                                    execCommand: "ansible-playbook -i /opt/kubernetes/hosts /opt/kubernetes/create-simple-devops-image.yml"
-                                )
-                        ])
-                ])
+                ansiblePlaybook becomeUser: 'ansadmin', credentialsId: 'ansible-server', installation: 'ansible', inventory: 'ansible/hosts', playbook: 'ansible/create-simple-devops-image.yml'
+            }
+        }
+        stage('Deploy to k8s') {
+            steps {
+                ansiblePlaybook becomeUser: 'ubuntu', credentialsId: 'kops-machine', installation: 'ansible', inventory: 'ansible/hosts', playbook: 'ansible/kubernetes-udacity-deployment.yml, ansible/kubernetes-udacity-service.yml'
             }
         }
     }

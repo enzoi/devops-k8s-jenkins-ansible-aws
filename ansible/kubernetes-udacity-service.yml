@@ -1,0 +1,14 @@
+---
+- hosts: kubernetes
+
+  tasks:
+  - name: Copy file with owner and permissions
+    copy:
+      src: ansible/udacity-service.yml
+      dest: /home/ubuntu/
+      owner: ubuntu
+      group: ubuntu
+      mode: '0644'
+
+  - name: Create service for deployment
+    command: kubectl apply -f udacity-service.yml

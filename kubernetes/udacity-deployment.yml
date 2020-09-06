@@ -1,0 +1,26 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: udacity-deployment
+spec:
+  selector:
+    matchLabels:
+      app: udacity-devops-project
+  replicas: 2
+  strategy:
+    type: RollingUpdate
+    rollingUpdate:
+      maxSurge: 1
+      maxUnavailable: 1
+
+  template:
+    metadata:
+      labels:
+        app: udacity-devops-project
+    spec:
+      containers:
+      - name: udacity-devops-project
+        image: ytk007/simple-devops-image
+        imagePullPolicy: Always
+        ports:
+        - containerPort: 8080

@@ -1,7 +1,14 @@
 ---
 - hosts: ansible-server
-
   tasks:
+  - name: Copy webapp file with owner and permissions
+    copy:
+      src: webapp/target/*.war
+      dest: /opt/kubernetes
+      owner: ansadmin
+      group: ansadmin
+      mode: '0644'
+
   - name: create docker image using war file 
     command: docker build -t simple-devops-image:latest .
     args:

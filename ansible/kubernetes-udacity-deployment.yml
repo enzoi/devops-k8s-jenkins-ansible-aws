@@ -1,0 +1,18 @@
+---
+- hosts: kubernetes
+
+  tasks:
+  - name: Copy file with owner and permissions
+    copy:
+      src: kubernetes/udacity-deployment.yml
+      dest: /home/ubuntu/
+      owner: ubuntu
+      group: ubuntu
+      mode: '0644'
+
+  - name: Create a deployment
+    command: kubectl apply -f udacity-deployment.yml
+
+# For rolling deployment later after initial deployment
+#    - name: update deployment with new pods if image updated in docker hub
+#    command: kubectl rollout restart deployment.v1.apps/udacity-deployment
