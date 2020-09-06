@@ -1,6 +1,6 @@
 ---
 - hosts: kubernetes
-  user: ubuntu
+  remote_user: ubuntu
 
   tasks:
   - name: Copy file with owner and permissions
