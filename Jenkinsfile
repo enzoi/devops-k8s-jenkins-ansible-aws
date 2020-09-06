@@ -27,6 +27,11 @@ pipeline {
         }
         stage('Build Docker Image and Push to Docker Hub') {
             steps {
+                sshagent(['ansible-server']) {
+                    sh "echo 'ansible-server'"
+                }
+            }
+            steps {
                 ansiblePlaybook becomeUser: 'ansadmin', credentialsId: 'ansible-server', installation: 'ansible', inventory: 'ansible/hosts', playbook: 'ansible/create-simple-devops-image.yml'
             }
         }
