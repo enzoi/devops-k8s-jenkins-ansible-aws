@@ -53,9 +53,24 @@ pipeline {
                 ])
             }
         }
-        stage('Build Docker Image and Push to Docker Hub') {
+        stage('Deploy to Kubernetes') {
             steps {
-                   ansiblePlaybook disableHostKeyChecking: true, becomeUser: 'ansadmin', credentialsId: 'ansible-server', installation: 'ansible', inventory: 'ansible/hosts', playbook: 'ansible/create-simple-devops-image.yml'
+                sshPublisher(
+                    continueOnError: false, failOnError: true,
+                    publishers: [
+                        sshPublisherDesc(
+                            configName: "ansible-server",
+                            verbose: true,
+                            transfers: [
+                                sshTransfer(
+                                    sourceFiles: "kubernetes/udacity-deployment.yml, kubernetes/udacity-service.yml",
+                                    removePrefix: "kubernetes",
+                                    remoteDirectory: "//opt//kubernetes",
+                                    execCommand: "ansible-playbook -i /opt/kubernetes/hosts /opt/kubernetes/udacity-deployment.yml",
+                                    execCommand: "ansible-playbook -i /opt/kubernetes/hosts /opt/kubernetes/udacity-service.yml"
+                                )
+                        ])
+                ])
             }
         }
     }
