@@ -25,17 +25,12 @@ pipeline {
                 sh 'mvn clean install package'
             }
         }
-        stage('Move Artifacts to Docker Host') {
-            steps {
-                sshagent(['ansible-server']) {
-                    sh "scp -o StrictHostKeyChecking=no webapp/target/*.war Dockerfile ec2-user@172.31.3.248:/home/ec2-user/"
-                    sh "sudo mv *.war /opt/docker/"
-                }
-            }
-        }
         stage('Build Docker Image and Push to Docker Hub') {
             steps {
-                ansiblePlaybook disableHostKeyChecking: true, becomeUser: 'ansadmin', credentialsId: 'ansible-server', installation: 'ansible', inventory: 'ansible/hosts', playbook: 'ansible/create-simple-devops-image.yml'
+                ansiblePlaybook disableHostKeyChecking: true,
+                                credentialsId: 'ansible-server', 
+                                playbook: 'ansible/create-simple-devops-image.yml',
+                                inventory: 'ansible/hosts'
             }
         }
     }
