@@ -18,9 +18,10 @@ spec:
       labels:
         app: udacity-devops-project
     spec:
+      terminationGracePeriodSeconds: 30
       containers:
       - name: udacity-devops-project
-        image: ytk007/simple-devops-image
+        image: ytk007/simple-devops-image:latest
         imagePullPolicy: Always
         ports:
         - containerPort: 8080
