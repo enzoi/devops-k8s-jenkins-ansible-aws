@@ -44,7 +44,7 @@ pipeline {
                                     remoteDirectory: "//opt//kubernetes",
                                 ),
                                 sshTransfer(
-                                    sourceFiles: "ansible/create-simple-devops-image.yml, ansible/hosts",
+                                    sourceFiles: "ansible/create-simple-devops-image.yml, ansible/hosts, ansible/kubernetes-udacity-deployment.yml, ansible/kubernetes-udacity-service.yml",
                                     removePrefix: "ansible",
                                     remoteDirectory: "//opt//kubernetes",
                                     execCommand: "ansible-playbook -i /opt/kubernetes/hosts /opt/kubernetes/create-simple-devops-image.yml"
