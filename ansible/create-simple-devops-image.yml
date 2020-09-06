@@ -4,7 +4,7 @@
   tasks:
   - name: Copy webapp file with owner and permissions
     copy:
-      src: webapp/target/*.war
+      src: ../webapp/target/*.war
       dest: /opt/docker
       owner: ansadmin
       group: ansadmin
