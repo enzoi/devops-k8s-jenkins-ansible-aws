@@ -1,5 +1,5 @@
 [ansible-server]
-172.31.3.248
+localhost
 
 [kubernetes]
 172.31.15.212
