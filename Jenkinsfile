@@ -27,7 +27,7 @@ pipeline {
         }
         stage('Build Docker Image and Push to Docker Hub') {
             steps {
-                ansiblePlaybook becomeUser: 'ansadmin', credentialsId: 'ansible-server', installation: 'ansible', inventory: 'ansible/hosts', playbook: 'ansible/create-simple-devops-image.yml'
+                ansiblePlaybook becomeUser: 'ec2-user', credentialsId: 'ansible-server', installation: 'ansible', inventory: 'ansible/hosts', playbook: 'ansible/create-simple-devops-image.yml'
             }
         }
         stage('Deploy to k8s') {
