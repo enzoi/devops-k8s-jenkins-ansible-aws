@@ -1,5 +1,5 @@
 [ansible-server]
-172.31.3.248 ansible_user=ec2-user
+172.31.3.248
 
 [kubernetes]
 172.31.15.212
