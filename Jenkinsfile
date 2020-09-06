@@ -25,13 +25,41 @@ pipeline {
                 sh 'mvn clean install package'
             }
         }
-        stage('Build Docker Image and Push to Docker Hub') {
+        stage('Create Docker Image and Push it Docker Hub using Ansible over SSH') {
             steps {
-                ansiblePlaybook disableHostKeyChecking: true,
-                                credentialsId: 'ansible-server', 
-                                playbook: 'ansible/create-simple-devops-image.yml',
-                                inventory: 'ansible/hosts'
+                sshPublisher(
+                    continueOnError: false, failOnError: true,
+                    publishers: [
+                        sshPublisherDesc(
+                            configName: "ansible-server",
+                            verbose: true,
+                            transfers: [
+                                sshTransfer(
+                                    sourceFiles: "webapp/target/*.war",
+                                    removePrefix: "webapp/target",
+                                    remoteDirectory: "//opt//kubernetes"
+                                ),
+                                sshTransfer(
+                                    sourceFiles: "Dockerfile",
+                                    remoteDirectory: "//opt//kubernetes",
+                                ),
+                                sshTransfer(
+                                    sourceFiles: "ansible/create-simple-devops-image.yml, ansible/hosts",
+                                    removePrefix: "ansible",
+                                    remoteDirectory: "//opt//kubernetes",
+                                    execCommand: "ansible-playbook -i /opt/kubernetes/hosts /opt/kubernetes/create-simple-devops-image.yml"
+                                )
+                        ])
+                ])
             }
+        }
+        stage('Build Docker Image and Push to Docker Hub') {
+            {
+                steps {
+                   ansiblePlaybook disableHostKeyChecking: true, becomeUser: 'ansadmin', credentialsId: 'ansible-server', installation: 'ansible', inventory: 'ansible/hosts', playbook: 'ansible/create-simple-devops-image.yml'
+                }
+            }
+
         }
     }
 }
