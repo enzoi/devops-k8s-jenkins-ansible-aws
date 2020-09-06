@@ -1,5 +1,6 @@
 ---
 - hosts: kubernetes
+  user: ansadmin
 
   tasks:
   - name: Copy file with owner and permissions

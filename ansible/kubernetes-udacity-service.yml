@@ -1,10 +1,11 @@
 ---
 - hosts: kubernetes
+  user: ansadmin
 
   tasks:
   - name: Copy file with owner and permissions
     copy:
-      src: ansible/udacity-service.yml
+      src: kubernetes/udacity-service.yml
       dest: /home/ubuntu/
       owner: ubuntu
       group: ubuntu
