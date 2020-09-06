@@ -28,7 +28,8 @@ pipeline {
         stage('Move Artifacts to Docker Host') {
             steps {
                 sshagent(['ansible-server']) {
-                    sh "scp -o StrictHostKeyChecking=no webapp/target/*.war Dockerfile ec2-user@172.31.3.248:/opt/docker/"
+                    sh "scp -o StrictHostKeyChecking=no webapp/target/*.war Dockerfile ec2-user@172.31.3.248:/home/ec2-user/"
+                    sh "sudo mv *.war /opt/docker/"
                 }
             }
         }
