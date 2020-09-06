@@ -31,14 +31,5 @@ pipeline {
                     sh "echo 'ansible-server'"
                 }
             }
-            steps {
-                ansiblePlaybook becomeUser: 'ansadmin', credentialsId: 'ansible-server', installation: 'ansible', inventory: 'ansible/hosts', playbook: 'ansible/create-simple-devops-image.yml'
-            }
-        }
-        stage('Deploy to k8s') {
-            steps {
-                ansiblePlaybook becomeUser: 'ubuntu', credentialsId: 'kops-machine', installation: 'ansible', inventory: 'ansible/hosts', playbook: 'ansible/kubernetes-udacity-deployment.yml, ansible/kubernetes-udacity-service.yml'
-            }
-        }
     }
 }
